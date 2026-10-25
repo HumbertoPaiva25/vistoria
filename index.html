@@ -1,0 +1,1064 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Vistoria Predial</title>
+<meta name="description" content="Checklist de vistoria de recebimento de apartamento, com fotos e relatório. Os dados ficam no próprio celular.">
+<meta name="theme-color" content="#1C4FD6">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Vistoria">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: ferramenta de campo em coluna única, pensada para o polegar; faixa de etapas no topo, navegação fixa embaixo */
+:root {
+  --bg: #EEF1F4;
+  --surface: #FFFFFF;
+  --ink: #142030;
+  --muted: #5A6779;
+  --line: #D3DAE3;
+  --accent: #1C4FD6;
+  --accent-soft: #E3EAFC;
+  --on-accent: #FFFFFF;
+  --ok: #1D7A4C;
+  --ok-soft: #E1F2E9;
+  --p1: #B42318;
+  --p1-soft: #FCE6E4;
+  --p2: #C2560C;
+  --p2-soft: #FDEEDF;
+  --p3: #8A6A00;
+  --p3-soft: #F8F0D2;
+  --grid: rgba(28, 79, 214, .07);
+  --shadow: 0 1px 2px rgba(20, 32, 48, .06), 0 4px 14px rgba(20, 32, 48, .06);
+  --f-display: "Barlow Semi Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "Barlow", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D131A; --surface: #151F2A; --ink: #E5EBF2; --muted: #93A1B2; --line: #2A3747;
+    --accent: #7AA2FF; --accent-soft: #1B2A47; --on-accent: #0D131A;
+    --ok: #4CC38A; --ok-soft: #12301F; --p1: #F27B72; --p1-soft: #3A1714;
+    --p2: #F3A35C; --p2-soft: #3A2412; --p3: #E2C55A; --p3-soft: #33290C;
+    --grid: rgba(122, 162, 255, .06); --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D131A; --surface: #151F2A; --ink: #E5EBF2; --muted: #93A1B2; --line: #2A3747;
+  --accent: #7AA2FF; --accent-soft: #1B2A47; --on-accent: #0D131A;
+  --ok: #4CC38A; --ok-soft: #12301F; --p1: #F27B72; --p1-soft: #3A1714;
+  --p2: #F3A35C; --p2-soft: #3A2412; --p3: #E2C55A; --p3-soft: #33290C;
+  --grid: rgba(122, 162, 255, .06); --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); }
+body { color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.45; -webkit-text-size-adjust: 100%; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 700; line-height: 1.1; text-wrap: balance; margin: 0; letter-spacing: .005em; }
+.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* topo */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 18px 18px; }
+.top-row { display: flex; align-items: center; gap: 10px; padding-block: 12px; min-height: 60px; }
+.top-row h1 { font-size: 24px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.icon-btn { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); }
+.icon-btn svg { width: 22px; height: 22px; }
+
+/* faixa de etapas */
+.steps { display: flex; gap: 6px; overflow-x: auto; padding-block: 0 12px; scrollbar-width: none; }
+.steps::-webkit-scrollbar { display: none; }
+.step { flex: none; display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 14px; font-weight: 500; white-space: nowrap; }
+.step .n { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-family: var(--f-mono); font-size: 13px; background: var(--bg); color: var(--muted); }
+.step.done .n { background: var(--ok-soft); color: var(--ok); }
+.step.cur { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+.step.cur .n { background: var(--accent); color: var(--on-accent); }
+
+main { padding-block: 18px 120px; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+
+/* botões */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 18px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: 16px; text-align: center; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn.ghost { background: transparent; }
+.btn.danger { color: var(--p1); border-color: var(--p1); background: transparent; }
+.btn.small { min-height: 38px; padding: 0 12px; font-size: 14px; border-radius: 10px; }
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-row > .btn { flex: 1 1 140px; }
+
+/* home */
+.hero { padding-block: 6px 4px; display: flex; flex-direction: column; gap: 6px; }
+.hero h2 { font-size: 30px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; box-shadow: var(--shadow); }
+.v-card { display: flex; flex-direction: column; gap: 10px; text-align: left; width: 100%; }
+.v-card h3 { font-size: 21px; }
+.v-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; color: var(--muted); }
+.bar { height: 8px; border-radius: 99px; background: var(--bg); overflow: hidden; display: flex; }
+.bar span { display: block; height: 100%; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-family: var(--f-mono); font-size: 12px; padding: 3px 8px; border-radius: 6px; background: var(--bg); color: var(--muted); }
+.chip.p1 { background: var(--p1-soft); color: var(--p1); }
+.chip.p2 { background: var(--p2-soft); color: var(--p2); }
+.chip.p3 { background: var(--p3-soft); color: var(--p3); }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.chip.ex { background: var(--accent-soft); color: var(--accent); }
+.empty { text-align: center; padding: 28px 16px; color: var(--muted); }
+
+/* formulário */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-weight: 600; font-size: 15px; }
+.field input, .field select, .field textarea, textarea.obs { width: 100%; min-height: 48px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-size: 16px; }
+textarea { resize: vertical; min-height: 80px; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+
+/* etapa */
+.etapa-head { display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+.etapa-head h2 { font-size: 30px; }
+.etapa-head p { margin: 0; color: var(--muted); max-width: 62ch; }
+.help-btn { align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 16px 0 10px; border-radius: 12px; border: 1px solid var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.help-btn .q { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font-family: var(--f-display); font-size: 18px; }
+
+.item { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 12px; border-left: 5px solid var(--line); }
+.item.s-ok { border-left-color: var(--ok); }
+.item.s-na { border-left-color: var(--muted); }
+.item.s-irr.p-1 { border-left-color: var(--p1); }
+.item.s-irr.p-2 { border-left-color: var(--p2); }
+.item.s-irr.p-3 { border-left-color: var(--p3); }
+.item-top { display: flex; gap: 10px; align-items: flex-start; }
+.item-top .code { font-family: var(--f-mono); font-size: 13px; color: var(--muted); padding-top: 2px; flex: none; min-width: 34px; }
+.item-top .txt { flex: 1; min-width: 0; font-weight: 500; }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.seg button { min-height: 44px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); font-weight: 600; font-size: 15px; }
+.seg button[aria-pressed="true"].ok { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.seg button[aria-pressed="true"].irr { background: var(--p1); border-color: var(--p1); color: var(--surface); }
+.seg button[aria-pressed="true"].na { background: var(--muted); border-color: var(--muted); color: var(--surface); }
+.irr-box { display: flex; flex-direction: column; gap: 10px; padding-top: 2px; }
+.irr-box .lbl { font-size: 13px; font-weight: 600; color: var(--muted); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.link { background: none; border: 0; padding: 4px 0; color: var(--accent); font-weight: 600; font-size: 13px; text-decoration: underline; text-underline-offset: 2px; }
+.prio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.prio button { min-height: 44px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: 14px; line-height: 1.1; }
+.prio button small { display: block; font-weight: 400; font-size: 12px; color: var(--muted); }
+.prio button[aria-pressed="true"][data-p="1"] { background: var(--p1-soft); border-color: var(--p1); color: var(--p1); }
+.prio button[aria-pressed="true"][data-p="2"] { background: var(--p2-soft); border-color: var(--p2); color: var(--p2); }
+.prio button[aria-pressed="true"][data-p="3"] { background: var(--p3-soft); border-color: var(--p3); color: var(--p3); }
+.tipo { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.tipo button { min-height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-size: 14px; font-weight: 500; }
+.tipo button[aria-pressed="true"] { border-color: var(--ink); background: var(--bg); font-weight: 600; }
+.fotos { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.thumb { width: 72px; height: 72px; border-radius: 10px; object-fit: cover; border: 1px solid var(--line); background: var(--bg); padding: 0; overflow: hidden; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.add-foto { width: 72px; height: 72px; border-radius: 10px; border: 1.5px dashed var(--muted); background: transparent; display: grid; place-items: center; color: var(--muted); font-size: 12px; font-weight: 600; text-align: center; line-height: 1.15; padding: 4px; }
+.add-foto svg { width: 22px; height: 22px; margin: 0 auto 2px; display: block; }
+
+.section-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; }
+.section-title h3 { font-size: 20px; }
+.comodo { border: 1px solid var(--line); border-radius: 16px; background: var(--surface); overflow: hidden; }
+.comodo-head { display: flex; align-items: center; gap: 10px; padding: 12px 14px; width: 100%; background: transparent; border: 0; text-align: left; }
+.comodo-head .t { flex: 1; min-width: 0; }
+.comodo-head h3 { font-size: 20px; }
+.comodo-head .chev { width: 22px; height: 22px; transition: transform .2s; flex: none; color: var(--muted); }
+.comodo[data-open="1"] .chev { transform: rotate(180deg); }
+.comodo-body { padding: 0 12px 14px; display: flex; flex-direction: column; gap: 10px; background: var(--bg); padding-top: 12px; border-top: 1px solid var(--line); }
+.add-comodo { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: end; }
+@media (max-width: 520px) { .add-comodo { grid-template-columns: 1fr 1fr; } .add-comodo .btn { grid-column: 1 / -1; } }
+.add-item { display: flex; gap: 8px; }
+.add-item input { flex: 1; min-width: 0; min-height: 48px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); }
+.confirm { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 12px; border-radius: 10px; background: var(--p1-soft); color: var(--p1); font-weight: 600; font-size: 14px; }
+
+/* navegação inferior */
+.bottom { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.bottom .wrap { display: flex; gap: 10px; padding-block: 10px; }
+.bottom .btn { flex: 1; }
+
+/* modal de ajuda */
+.sheet-bg { position: fixed; inset: 0; z-index: 20; background: rgba(10, 16, 24, .5); display: flex; align-items: flex-end; justify-content: center; }
+.sheet { background: var(--surface); width: 100%; max-width: 760px; max-height: 88vh; overflow-y: auto; border-radius: 20px 20px 0 0; padding: 20px max(18px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 16px; }
+@media (min-width: 800px) { .sheet-bg { align-items: center; } .sheet { border-radius: 20px; } }
+.sheet-head { display: flex; align-items: flex-start; gap: 12px; }
+.sheet-head h2 { font-size: 26px; flex: 1; }
+.h-block { display: flex; flex-direction: column; gap: 6px; }
+.h-block h3 { font-size: 18px; display: flex; align-items: center; gap: 8px; }
+.h-block h3 .dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.h-block ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; max-width: 65ch; }
+.h-block p { margin: 0; max-width: 65ch; }
+.tools { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0 !important; }
+.tools li { padding: 6px 10px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); font-size: 14px; }
+.ref { font-family: var(--f-mono); font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+.photo-view { width: 100%; border-radius: 12px; }
+
+/* relatório */
+.rep-sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media (max-width: 480px) { .rep-sum { grid-template-columns: repeat(2, 1fr); } }
+.rep-sum div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+.rep-sum b { display: block; font-family: var(--f-display); font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; }
+.rep-sum span { font-size: 13px; color: var(--muted); }
+.rep-item { display: flex; flex-direction: column; gap: 6px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.rep-item:last-child { border-bottom: 0; }
+.rep-item .where { font-size: 13px; color: var(--muted); }
+.rep-item .fotos .thumb { width: 96px; height: 96px; }
+.toast { position: fixed; left: 50%; bottom: calc(86px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 30; background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; max-width: calc(100% - 32px); text-align: center; }
+.note { font-size: 14px; color: var(--muted); background: var(--surface); border: 1px dashed var(--line); border-radius: 12px; padding: 12px 14px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media print { .top, .bottom, .no-print { display: none !important; } body { background: #fff; } main { padding: 0; } }
+.instalar { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(86px + env(safe-area-inset-bottom, 0px)); z-index: 25; width: min(560px, calc(100% - 32px)); background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); padding: 12px 14px; display: flex; gap: 12px; align-items: center; font-size: 14px; }
+.instalar img { width: 40px; height: 40px; border-radius: 9px; flex: none; }
+.instalar p { margin: 0; flex: 1; }
+.instalar button { border: 0; border-radius: 9px; padding: 8px 12px; font-weight: 600; }
+.instalar .sim { background: var(--accent); color: var(--on-accent); }
+.instalar .nao { background: transparent; color: var(--muted); }
+</style>
+
+<style>
+.seg { grid-template-columns: 1fr 1fr; }
+.seg button { min-height: 52px; font-size: 16px; }
+.seg button[aria-pressed="true"].irr { background: var(--p1); border-color: var(--p1); color: var(--surface); }
+.item-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.item.s-na .txt { color: var(--muted); text-decoration: line-through; }
+.locais { display: flex; flex-wrap: wrap; gap: 6px; }
+.locais button { min-height: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 14px; }
+.locais button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); font-weight: 600; }
+.passo-n { font-family: var(--f-display); font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: .04em; text-transform: uppercase; }
+.medidas { display: flex; flex-direction: column; gap: 8px; }
+.med-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) auto; gap: 6px; align-items: center; }
+.med-row input { width: 100%; min-height: 44px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-size: 15px; }
+.med-row input.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.med-head { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+.dif { font-family: var(--f-mono); font-size: 13px; text-align: right; min-width: 64px; }
+.dif.bad { color: var(--p1); font-weight: 600; }
+.dif.ok { color: var(--ok); }
+.med-del { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--muted); display: grid; place-items: center; }
+.med-del svg { width: 16px; height: 16px; }
+.med-sub { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 8px; font-size: 13px; color: var(--muted); margin-top: -2px; }
+</style>
+
+</head><body><div id="app"></div>
+<input type="file" id="foto-input" accept="image/*" capture="environment" hidden>
+<input type="file" id="import-input" accept="application/json,.json" hidden>
+
+<script>
+(function () {
+"use strict";
+
+/* ---------------------------------------------------------------
+   Os 6 passos da vistoria de recebimento + fechamento
+---------------------------------------------------------------- */
+const ETAPAS = [
+  {
+    id: "doc", nome: "Documentos e metragem", curto: "Documentos",
+    resumo: "Confira se o que você está recebendo é o que está no contrato e se as medidas batem com a planta.",
+    medidas: true,
+    itens: [
+      "Número do apartamento confere com o contrato",
+      "Vaga de garagem confere com o contrato (número e localização)",
+      "Escaninho ou depósito confere com o contrato",
+      "Medidas dos ambientes conferem com a planta (use a tabela abaixo)"
+    ],
+    ajuda: {
+      como: [
+        "Leve o contrato e a planta com as medidas (cotas) de cada ambiente.",
+        "Antes de entrar, confira o número na porta, a vaga e o escaninho com o que está escrito no contrato.",
+        "Meça cada ambiente principal de parede a parede, rente ao piso: comprimento e largura. Multiplique os dois para ter a área.",
+        "Anote na tabela a medida da planta e a medida real. O app mostra a diferença."
+      ],
+      atencao: [
+        "A área do contrato normalmente inclui as paredes, então a área interna medida sai menor. Compare com as cotas internas da planta, ambiente por ambiente.",
+        "Se for colocar móveis planejados, meça também altura do pé-direito e vãos de janela e porta.",
+        "Vaga presa (que depende de outro carro sair) ou em local diferente do contrato deve ser apontada agora."
+      ],
+      ferramentas: ["Trena a laser", "Trena de fita (5 m)", "Contrato de compra", "Planta com medidas", "Celular para fotos"]
+    }
+  },
+  {
+    id: "par", nome: "Paredes, tetos e pisos", curto: "Paredes e pisos", locais: true,
+    resumo: "Procure manchas, trincas e peças ocas. Faça cômodo por cômodo e marque onde achou cada problema.",
+    itens: [
+      "Paredes sem manchas de umidade, bolhas na pintura, trincas ou mofo",
+      "Tetos sem manchas, trincas ou ondulações no gesso",
+      "Massa corrida e pintura sem ondulações",
+      "Pisos e azulejos sem peças ocas",
+      "Pisos e azulejos sem rachaduras, lascas ou peças soltas",
+      "Rejunte completo e rodapés bem fixados"
+    ],
+    ajuda: {
+      como: [
+        "Entre no cômodo e olhe primeiro o teto, depois as paredes, depois o piso.",
+        "Encoste a lanterna na parede e acenda de lado (luz rasante). Ondulações e defeitos na massa aparecem na hora.",
+        "Bata levemente com os nós dos dedos ou com o cabo de uma ferramenta em cada peça de piso e azulejo. Som oco quer dizer que a peça não está bem colada.",
+        "Marque as peças ocas com um pedaço de fita crepe e fotografe. Fica fácil mostrar para a construtora."
+      ],
+      atencao: [
+        "Mancha de umidade embaixo de janela, no teto do banheiro ou perto do ralo indica infiltração ou vazamento.",
+        "Fissura fina só na pintura é comum. Trinca que dá para enfiar a ponta de uma folha de papel é mais séria e deve ser fotografada com algo ao lado para dar escala.",
+        "Peça oca hoje pode soltar meses depois. Aponte todas."
+      ],
+      ferramentas: ["Lanterna", "Cabo de chave de fenda ou martelo de borracha", "Fita crepe", "Celular para fotos"]
+    }
+  },
+  {
+    id: "esq", nome: "Portas e janelas", curto: "Portas e janelas", locais: true,
+    resumo: "Abra e feche tudo. Portas e janelas precisam travar, vedar e não abrir sozinhas.",
+    itens: [
+      "Portas abrem e fecham sem raspar e travam direito",
+      "Maçanetas e fechaduras firmes, chaves funcionando",
+      "Portas não abrem nem fecham sozinhas e não rangem",
+      "Janelas abrem, fecham e travam",
+      "Vedação das janelas completa (borrachas e silicone)",
+      "Vidros inteiros, sem riscos ou trincas"
+    ],
+    ajuda: {
+      como: [
+        "Abra cada porta até a metade e solte. Se ela se mexer sozinha, o batente está fora de prumo. Confirme com o nível encostado no batente.",
+        "Tranque e destranque cada porta com a chave que veio com ela.",
+        "Corra cada janela até o fim nos dois sentidos e trave. Veja se as borrachas estão inteiras e se o silicone em volta não tem falhas.",
+        "Olhe os vidros contra a luz, de lado, para achar riscos."
+      ],
+      atencao: [
+        "Vidro riscado ou lascado precisa ser apontado na entrega. Depois fica difícil provar que veio assim.",
+        "Falha na vedação da janela vira infiltração na primeira chuva forte.",
+        "Porta de entrada deve fechar firme e a fechadura não pode ter folga."
+      ],
+      ferramentas: ["Nível de bolha", "Lanterna", "Chaves recebidas", "Borrifador com água (para testar vedação, opcional)"]
+    }
+  },
+  {
+    id: "ele", nome: "Instalações elétricas", curto: "Elétrica", locais: true,
+    resumo: "Teste todas as tomadas, interruptores e pontos de luz, e confira o quadro de luz.",
+    itens: [
+      "Todas as tomadas funcionando (testar uma por uma)",
+      "Interruptores funcionando",
+      "Pontos de luz acendem",
+      "Quadro de luz com disjuntores identificados",
+      "Disjuntores desligam e ligam normalmente",
+      "Interfone e campainha funcionando"
+    ],
+    ajuda: {
+      como: [
+        "Ligue o carregador de celular em cada tomada e veja se o celular começa a carregar. Com a caneta de polaridade é mais rápido.",
+        "Muitos apartamentos são entregues sem lâmpada. Leve uma lâmpada (ou um bocal com lâmpada) para testar os pontos de luz.",
+        "No quadro de luz, confira se cada disjuntor tem uma etiqueta dizendo o que ele liga. Desligue um de cada vez e veja se o ambiente certo apaga."
+      ],
+      atencao: [
+        "Tomada frouxa, que não segura o plugue, também é problema.",
+        "Não mexa em fios soltos. Só aponte.",
+        "Disjuntor que não volta a ligar ou que esquenta deve ser apontado como grave."
+      ],
+      ferramentas: ["Carregador de celular", "Caneta de polaridade ou detector de tensão", "Testador de tomadas", "Lâmpada com bocal", "Lanterna"]
+    }
+  },
+  {
+    id: "hid", nome: "Hidráulica e áreas molhadas", curto: "Hidráulica", locais: true,
+    resumo: "Abra todas as torneiras e chuveiros, dê descarga e teste se a água vai para o ralo.",
+    itens: [
+      "Torneiras com boa pressão e sem pingos",
+      "Sem vazamento embaixo das pias (sifão e mangueirinhas)",
+      "Chuveiros funcionando",
+      "Registros abrem e fecham sem vazar",
+      "Descarga funcionando (os dois botões, se houver)",
+      "Vaso sanitário firme e sem vazamento na base",
+      "Box: a água corre para o ralo sem empoçar",
+      "Varanda e área de serviço: a água corre para o ralo",
+      "Ralos limpos, sem restos de obra"
+    ],
+    ajuda: {
+      como: [
+        "Abra cada torneira por um minuto. Depois abra o armário da pia com a lanterna e veja se pinga no sifão ou nas conexões.",
+        "Dê descarga nos dois botões e olhe o pé do vaso. Tente balançar o vaso com as mãos: ele não pode se mexer.",
+        "Jogue um balde de água no chão do box e da varanda, ou solte uma bolinha de gude. A água e a bolinha têm que ir para o ralo.",
+        "Feche cada registro com a torneira aberta para ver se ele corta a água de verdade."
+      ],
+      atencao: [
+        "Água empoçada no box ou na varanda é defeito de caimento do piso. Fotografe a poça.",
+        "Ralo com cimento ou entulho entope depois. Peça a limpeza.",
+        "Pouca pressão em um ponto só pode ser registro meio fechado ou cano obstruído."
+      ],
+      ferramentas: ["Balde ou garrafa com água", "Bolinha de gude", "Lanterna", "Papel toalha (para ver pingos)"]
+    }
+  },
+  {
+    id: "com", nome: "Áreas comuns e garagem", curto: "Áreas comuns",
+    resumo: "Confira a vaga de verdade e dê uma volta pelas áreas que fazem parte da entrega.",
+    itens: [
+      "Vaga com o tamanho certo e colunas que não atrapalham a manobra",
+      "Corredor e hall do andar sem problemas",
+      "Hall de entrada e portaria",
+      "Elevadores funcionando",
+      "Áreas de lazer entregues e funcionando"
+    ],
+    ajuda: {
+      como: [
+        "Meça a vaga com a trena e simule a manobra: veja se dá para abrir as portas do carro com as colunas ao lado.",
+        "Percorra o caminho que você vai fazer todo dia: da garagem até o elevador e do elevador até a porta.",
+        "Nas áreas de lazer, confira se o que foi prometido no material de venda está lá e funcionando."
+      ],
+      atencao: [
+        "Áreas comuns normalmente são vistoriadas pelo condomínio, mas o que você notar pode ser registrado.",
+        "Manchas de umidade no teto da garagem e infiltrações em subsolos são comuns em prédios novos. Fotografe."
+      ],
+      ferramentas: ["Trena", "Celular para fotos", "Material de venda ou memorial descritivo"]
+    }
+  },
+  {
+    id: "fim", nome: "Resumo e entrega", curto: "Resumo", fechamento: true,
+    resumo: "Revise o que ficou pendente, confira os problemas e leve a lista para a construtora.",
+    itens: [
+      "Todos os problemas têm foto",
+      "Lista de problemas entregue à construtora",
+      "Prazo para os reparos combinado",
+      "Data de nova vistoria marcada para conferir os reparos"
+    ],
+    ajuda: {
+      como: [
+        "Toque em \"Ver relatório\" para ver todos os problemas organizados por gravidade.",
+        "Copie o texto do relatório e mande para a construtora, ou anexe ao termo de vistoria deles.",
+        "Combine prazo para cada reparo e marque uma nova vistoria para conferir."
+      ],
+      atencao: [
+        "Não assine o termo de recebimento sem que os problemas estejam escritos nele ou anexados.",
+        "Problemas que aparecerem depois ainda podem ser reclamados dentro dos prazos de garantia. Guarde o manual do proprietário, ele lista esses prazos.",
+        "Guarde as fotos com data. Elas são a sua prova."
+      ],
+      ferramentas: ["Este app (relatório)", "Termo de vistoria da construtora", "Manual do proprietário"]
+    }
+  }
+];
+
+const LOCAIS = ["Sala", "Cozinha", "Quarto 1", "Quarto 2", "Quarto 3", "Suíte", "Banheiro social", "Banheiro suíte", "Lavabo", "Área de serviço", "Varanda", "Hall", "Outro"];
+
+const AJUDA_CLASSIFICACAO = {
+  titulo: "Qual a gravidade do problema?",
+  blocos: [
+    { t: "Grave", c: "p1", txt: "Risco para quem vai morar ou dano que piora rápido. Ex.: vazamento, fio exposto, tomada esquentando, porta de entrada que não tranca, infiltração." },
+    { t: "Moderado", c: "p2", txt: "Algo que não funciona direito e precisa de reparo. Ex.: janela que não trava, peça oca, ralo empoçando, tomada sem funcionar." },
+    { t: "Leve", c: "p3", txt: "Acabamento ou estética. Ex.: risco na pintura, rejunte manchado, rodapé descolando na ponta." }
+  ],
+  ref: "Use a gravidade para a construtora saber o que corrigir primeiro. Todos os problemas devem ser apontados, inclusive os leves."
+};
+const PRIO_TXT = { 1: "Grave", 2: "Moderado", 3: "Leve" };
+
+/* ---------------------------------------------------------------
+   Armazenamento no aparelho (IndexedDB, com reserva em localStorage)
+---------------------------------------------------------------- */
+const DB_NAME = "vistoria-recebimento", DB_VER = 1;
+let dbp = null;
+function db() {
+  if (dbp) return dbp;
+  dbp = new Promise((res, rej) => {
+    try {
+      const r = indexedDB.open(DB_NAME, DB_VER);
+      r.onupgradeneeded = () => { const d = r.result; if (!d.objectStoreNames.contains("kv")) d.createObjectStore("kv"); if (!d.objectStoreNames.contains("fotos")) d.createObjectStore("fotos"); };
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
+    } catch (e) { rej(e); }
+  });
+  return dbp;
+}
+async function idbGet(store, key) {
+  const d = await db();
+  return new Promise((res, rej) => { const q = d.transaction(store).objectStore(store).get(key); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); });
+}
+async function idbPut(store, key, val) {
+  const d = await db();
+  return new Promise((res, rej) => { const t = d.transaction(store, "readwrite"); t.objectStore(store).put(val, key); t.oncomplete = () => res(); t.onerror = () => rej(t.error); });
+}
+async function idbDel(store, key) {
+  const d = await db();
+  return new Promise((res, rej) => { const t = d.transaction(store, "readwrite"); t.objectStore(store).delete(key); t.oncomplete = () => res(); t.onerror = () => rej(t.error); });
+}
+let storageOk = true;
+const LS_KEY = "vistorias-receb";
+async function loadData() {
+  try { const v = await idbGet("kv", "vistorias"); if (v) return v; } catch (e) { storageOk = false; }
+  try { const s = localStorage.getItem(LS_KEY); if (s) return JSON.parse(s); } catch (e) {}
+  return null;
+}
+let saveTimer = null;
+function save() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    const data = JSON.parse(JSON.stringify(S.vistorias));
+    try { await idbPut("kv", "vistorias", data); storageOk = true; }
+    catch (e) {
+      storageOk = false;
+      try { localStorage.setItem(LS_KEY, JSON.stringify(data)); storageOk = true; } catch (e2) {}
+    }
+    if (!storageOk) toast("Não foi possível salvar neste navegador. Faça um backup.");
+  }, 300);
+}
+const fotoCache = new Map();
+async function getFoto(id) {
+  if (fotoCache.has(id)) return fotoCache.get(id);
+  try { const f = await idbGet("fotos", id); if (f) fotoCache.set(id, f); return f || null; } catch (e) { return null; }
+}
+async function putFoto(id, data) {
+  fotoCache.set(id, data);
+  try { await idbPut("fotos", id, data); } catch (e) { toast("A foto ficou só nesta sessão. O navegador não permitiu salvar."); }
+}
+async function delFoto(id) { fotoCache.delete(id); try { await idbDel("fotos", id); } catch (e) {} }
+
+/* ---------------------------------------------------------------
+   Estado e utilidades
+---------------------------------------------------------------- */
+const S = { vistorias: [], view: "home", id: null, etapa: 0, confirm: null, sheet: null };
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const cur = () => S.vistorias.find((v) => v.id === S.id);
+const hoje = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+const fmtData = (s) => { if (!s) return ""; const [y, m, d] = s.split("-"); return d + "/" + m + "/" + y; };
+const framed = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
+const num = (s) => { const n = parseFloat(String(s || "").replace(",", ".")); return isFinite(n) ? n : null; };
+const fmtNum = (n) => n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+function itensDe(v, e) {
+  const n = ETAPAS.indexOf(e) + 1;
+  const list = e.itens.map((t, i) => ({ key: e.id + ":" + i, txt: t, code: n + "." + (i + 1) }));
+  (v.extras[e.id] || []).forEach((x, j) => list.push({ key: e.id + ":x:" + x.id, txt: x.txt, code: n + "." + (e.itens.length + j + 1), extra: x.id }));
+  return list;
+}
+function contar(v, list) {
+  const r = { total: list.length, ok: 0, na: 0, irr: 0, p1: 0, p2: 0, p3: 0 };
+  list.forEach((it) => { const a = v.resp[it.key]; if (!a || !a.s) return; r[a.s]++; if (a.s === "irr") r["p" + (a.p || 2)]++; });
+  r.feito = r.ok + r.na + r.irr; r.pend = r.total - r.feito;
+  return r;
+}
+const contarTudo = (v) => contar(v, ETAPAS.flatMap((e) => itensDe(v, e)));
+
+const I = {
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+  report: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>',
+  cam: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>'
+};
+
+/* ---------------------------------------------------------------
+   Telas
+---------------------------------------------------------------- */
+const app = document.getElementById("app");
+
+function render() {
+  if (S.view === "home") app.innerHTML = vHome();
+  else if (S.view === "nova" || S.view === "editar") app.innerHTML = vForm();
+  else if (S.view === "vistoria") app.innerHTML = vVistoria();
+  else if (S.view === "relatorio") app.innerHTML = vRelatorio();
+  else if (S.view === "backup") app.innerHTML = vBackup();
+  hydrateFotos();
+  try { localStorage.setItem("ui-receb", JSON.stringify({ view: S.view === "vistoria" || S.view === "relatorio" ? S.view : "home", id: S.id, etapa: S.etapa })); } catch (e) {}
+}
+
+function barra(c) {
+  if (!c.total) return '<div class="bar"></div>';
+  const w = (n) => (n / c.total * 100).toFixed(1) + "%";
+  return '<div class="bar" aria-hidden="true"><span style="width:' + w(c.ok + c.na) + ';background:var(--ok)"></span><span style="width:' + w(c.p3) + ';background:var(--p3)"></span><span style="width:' + w(c.p2) + ';background:var(--p2)"></span><span style="width:' + w(c.p1) + ';background:var(--p1)"></span></div>';
+}
+function chipsCont(c) {
+  let h = '<span class="chip mono">' + c.feito + "/" + c.total + " itens</span>";
+  if (c.irr) h += '<span class="chip p1">' + c.irr + (c.irr === 1 ? " problema" : " problemas") + "</span>";
+  return h;
+}
+
+function vHome() {
+  const lista = S.vistorias.slice().sort((a, b) => (b.upd || 0) - (a.upd || 0));
+  let h = '<header class="top"><div class="wrap top-row"><h1>Vistoria do Apartamento</h1><button class="icon-btn" data-a="backup" aria-label="Backup e restauração">' + I.menu + "</button></div></header>";
+  h += '<main class="wrap stack">';
+  h += '<div class="hero"><span class="eyebrow">Recebimento de imóvel · 6 passos</span><h2>Suas vistorias</h2><p class="muted" style="margin:0;max-width:60ch">Siga os passos na ordem. Em cada item, marque OK ou Com problema. Se tiver problema, diga onde, tire uma foto e escreva o que viu. Tudo fica salvo neste aparelho.</p></div>';
+  h += '<button class="btn primary" data-a="nova">' + I.plus + "Nova vistoria</button>";
+  if (!lista.length) h += '<div class="empty card">Nenhuma vistoria ainda. Toque em <b>Nova vistoria</b> para começar.</div>';
+  lista.forEach((v) => {
+    const c = contarTudo(v);
+    h += '<button class="card v-card" data-a="abrir" data-id="' + v.id + '">';
+    h += '<div class="chips">' + (v.exemplo ? '<span class="chip ex">EXEMPLO</span>' : "") + chipsCont(c) + "</div>";
+    h += "<h3>" + esc(v.nome || "Sem nome") + "</h3>";
+    h += '<div class="v-meta"><span>' + esc(v.empreend || "Empreendimento não informado") + "</span><span class=\"mono\">" + fmtData(v.data) + "</span></div>";
+    h += barra(c) + "</button>";
+  });
+  if (!storageOk) h += '<p class="note">Este navegador não está permitindo salvar dados (modo anônimo ou dados bloqueados). O que você fizer agora pode se perder ao fechar. Use o menu de backup.</p>';
+  h += "</main>";
+  return h;
+}
+
+function vForm() {
+  const v = S.view === "editar" ? cur() : { nome: "", empreend: "", construtora: "", endereco: "", data: hoje(), responsavel: "" };
+  let h = '<header class="top"><div class="wrap top-row"><button class="icon-btn" data-a="voltar-form" aria-label="Voltar">' + I.back + "</button><h1>" + (S.view === "editar" ? "Dados do imóvel" : "Nova vistoria") + "</h1></div></header>";
+  h += '<main class="wrap"><form id="f-vist" class="stack" autocomplete="off">';
+  h += '<div class="field"><label for="f-nome">Apartamento</label><input id="f-nome" name="nome" required placeholder="Ex.: Apto 1203, Torre B" value="' + esc(v.nome) + '"></div>';
+  h += '<div class="grid2"><div class="field"><label for="f-emp">Empreendimento</label><input id="f-emp" name="empreend" placeholder="Nome do prédio ou condomínio" value="' + esc(v.empreend) + '"></div>';
+  h += '<div class="field"><label for="f-cons">Construtora</label><input id="f-cons" name="construtora" placeholder="Nome da construtora" value="' + esc(v.construtora) + '"></div></div>';
+  h += '<div class="field"><label for="f-end">Endereço</label><input id="f-end" name="endereco" placeholder="Rua, número, bairro, cidade" value="' + esc(v.endereco) + '"></div>';
+  h += '<div class="grid2"><div class="field"><label for="f-data">Data da vistoria</label><input id="f-data" name="data" type="date" value="' + esc(v.data) + '"></div>';
+  h += '<div class="field"><label for="f-resp">Quem está vistoriando</label><input id="f-resp" name="responsavel" placeholder="Seu nome" value="' + esc(v.responsavel) + '"></div></div>';
+  h += '<button class="btn primary" type="submit">' + (S.view === "editar" ? "Salvar dados" : "Começar pelo passo 1") + "</button>";
+  if (S.view === "editar") {
+    if (S.confirm === "del-vist") h += '<div class="confirm">Apagar esta vistoria e todas as fotos? <button type="button" class="btn small danger" data-a="del-vist-ok">Apagar</button><button type="button" class="btn small" data-a="cancel">Cancelar</button></div>';
+    else h += '<button class="btn danger" type="button" data-a="del-vist">Apagar vistoria</button>';
+  }
+  h += "</form></main>";
+  return h;
+}
+
+function vVistoria() {
+  const v = cur();
+  const e = ETAPAS[S.etapa];
+  const ultimo = S.etapa === ETAPAS.length - 1;
+  let h = '<header class="top"><div class="wrap"><div class="top-row"><button class="icon-btn" data-a="home" aria-label="Voltar para a lista">' + I.back + '</button><h1>' + esc(v.nome) + '</h1><button class="icon-btn" data-a="editar" aria-label="Dados do imóvel">' + I.menu + '</button><button class="icon-btn" data-a="relatorio" aria-label="Relatório">' + I.report + "</button></div>";
+  h += '<nav class="steps" aria-label="Passos">';
+  ETAPAS.forEach((et, i) => {
+    const c = contar(v, itensDe(v, et));
+    const done = c.total > 0 && c.pend === 0;
+    h += '<button class="step' + (i === S.etapa ? " cur" : "") + (done ? " done" : "") + '" data-a="etapa" data-i="' + i + '"' + (i === S.etapa ? ' aria-current="step"' : "") + '><span class="n">' + (done ? "✓" : (et.fechamento ? "✎" : i + 1)) + "</span>" + esc(et.curto) + "</button>";
+  });
+  h += "</nav></div></header>";
+
+  h += '<main class="wrap stack">';
+  const c = contar(v, itensDe(v, e));
+  h += '<div class="etapa-head"><span class="passo-n">' + (e.fechamento ? "Final" : "Passo " + (S.etapa + 1) + " de " + (ETAPAS.length - 1)) + '</span><h2>' + esc(e.nome) + "</h2><p>" + esc(e.resumo) + "</p>";
+  h += '<div class="chips"><span class="chip mono">' + c.feito + "/" + c.total + " itens</span>" + (c.irr ? '<span class="chip p1">' + c.irr + " com problema</span>" : "") + "</div>";
+  h += '<button class="help-btn" data-a="ajuda" data-e="' + e.id + '"><span class="q">?</span>Como fazer este passo</button></div>';
+
+  if (e.fechamento) h += vFechamentoTopo(v);
+  itensDe(v, e).forEach((it) => { h += vItem(v, it, e); });
+  if (e.medidas) h += vMedidas(v);
+  h += vAddItem(e.id);
+  h += '<div class="field"><label for="nota-' + e.id + '">Anotações deste passo</label><textarea id="nota-' + e.id + '" class="obs" data-nota="' + e.id + '" placeholder="Qualquer coisa que queira lembrar depois">' + esc(v.notas[e.id] || "") + "</textarea></div>";
+  if (e.fechamento) h += '<button class="btn primary" data-a="relatorio">' + I.report + "Ver relatório</button>";
+  h += "</main>";
+
+  h += '<nav class="bottom"><div class="wrap">';
+  h += S.etapa > 0 ? '<button class="btn" data-a="prev">' + I.back + "Anterior</button>" : '<button class="btn" data-a="home">Lista</button>';
+  h += !ultimo ? '<button class="btn primary" data-a="next">' + (S.etapa === ETAPAS.length - 2 ? "Ir para o resumo" : "Próximo passo") + "</button>" : '<button class="btn primary" data-a="relatorio">Ver relatório</button>';
+  h += "</div></nav>";
+  if (S.sheet) h += S.sheet;
+  return h;
+}
+
+function vFechamentoTopo(v) {
+  const c = contarTudo(v);
+  let h = '<div class="rep-sum"><div><b>' + c.pend + '</b><span>sem resposta</span></div><div><b style="color:var(--p1)">' + c.p1 + '</b><span>graves</span></div><div><b style="color:var(--p2)">' + c.p2 + '</b><span>moderados</span></div><div><b style="color:var(--p3)">' + c.p3 + "</b><span>leves</span></div></div>";
+  const pend = ETAPAS.map((e, i) => ({ e, i, c: contar(v, itensDe(v, e)) })).filter((x) => x.c.pend > 0 && !x.e.fechamento);
+  if (pend.length) h += '<div class="note">Passos com itens sem resposta: ' + pend.map((x) => '<button class="link" data-a="etapa" data-i="' + x.i + '">' + (x.i + 1) + ". " + esc(x.e.curto) + " (" + x.c.pend + ")</button>").join(", ") + "</div>";
+  const semFoto = irregularidades(v).filter((x) => !(x.a.fotos && x.a.fotos.length)).length;
+  if (semFoto) h += '<div class="note">' + semFoto + (semFoto === 1 ? " problema está sem foto." : " problemas estão sem foto.") + " Foto é a sua prova na hora de cobrar o reparo.</div>";
+  return h;
+}
+
+function vMedidas(v) {
+  const rows = v.medidas || [];
+  let h = '<section class="card stack"><div><h3 style="font-size:20px">Tabela de metragem</h3><p class="muted" style="margin:4px 0 0;font-size:14px">Área de cada ambiente em m² (comprimento × largura). Diferença acima de 3% fica em vermelho.</p></div>';
+  h += '<div class="medidas">';
+  if (rows.length) h += '<div class="med-row med-head"><span>Ambiente</span><span>Planta</span><span>Medido</span><span></span></div>';
+  rows.forEach((r) => {
+    const p = num(r.planta), m = num(r.real);
+    let dif = "";
+    if (p && m) { const d = m - p; const pct = d / p * 100; dif = '<span class="dif ' + (Math.abs(pct) > 3 ? "bad" : "ok") + '">' + (d >= 0 ? "+" : "") + fmtNum(d) + " m² (" + (pct >= 0 ? "+" : "") + pct.toFixed(1).replace(".", ",") + "%)</span>"; }
+    h += '<div class="med-row"><input aria-label="Ambiente" data-med="' + r.id + '" data-campo="amb" value="' + esc(r.amb) + '" placeholder="Ambiente">';
+    h += '<input class="num" aria-label="Área na planta" inputmode="decimal" data-med="' + r.id + '" data-campo="planta" value="' + esc(r.planta) + '" placeholder="0,00">';
+    h += '<input class="num" aria-label="Área medida" inputmode="decimal" data-med="' + r.id + '" data-campo="real" value="' + esc(r.real) + '" placeholder="0,00">';
+    h += '<button class="med-del" data-a="del-med" data-id="' + r.id + '" aria-label="Remover linha">' + I.close + "</button>";
+    h += '<div class="med-sub" data-dif="' + r.id + '">' + dif + "</div></div>";
+  });
+  h += '</div><button class="btn small" style="align-self:flex-start" data-a="add-med">' + I.plus + "Adicionar ambiente</button></section>";
+  return h;
+}
+function difHtml(r) {
+  const p = num(r.planta), m = num(r.real);
+  if (!p || !m) return "";
+  const d = m - p, pct = d / p * 100;
+  return '<span class="dif ' + (Math.abs(pct) > 3 ? "bad" : "ok") + '">' + (d >= 0 ? "+" : "") + fmtNum(d) + " m² (" + (pct >= 0 ? "+" : "") + pct.toFixed(1).replace(".", ",") + "%)</span>";
+}
+
+function vAddItem(etapaId) {
+  return '<div class="add-item"><input id="ai-' + etapaId + '" placeholder="Adicionar outro item para conferir" data-ai="' + etapaId + '"><button class="btn small" style="min-height:48px" data-a="add-item" data-alvo="' + etapaId + '" aria-label="Adicionar item">' + I.plus + "</button></div>";
+}
+
+function vItem(v, it, e) {
+  const a = v.resp[it.key] || {};
+  const cls = "item" + (a.s ? " s-" + a.s : "") + (a.s === "irr" ? " p-" + (a.p || 2) : "");
+  const k = esc(it.key);
+  let h = '<article class="' + cls + '"><div class="item-top"><span class="code">' + it.code + '</span><div class="txt">' + esc(it.txt) + "</div>";
+  if (it.extra) h += '<button class="link" data-a="del-extra" data-k="' + k + '">remover</button>';
+  h += "</div>";
+  if (a.s !== "na") {
+    h += '<div class="seg" role="group" aria-label="Situação">';
+    h += '<button class="ok" data-a="st" data-k="' + k + '" data-s="ok" aria-pressed="' + (a.s === "ok") + '">OK</button>';
+    h += '<button class="irr" data-a="st" data-k="' + k + '" data-s="irr" aria-pressed="' + (a.s === "irr") + '">Com problema</button>';
+    h += "</div>";
+  }
+  if (a.s === "irr") {
+    const p = a.p || 2;
+    h += '<div class="irr-box">';
+    if (e.locais) {
+      const sel = a.locais || [];
+      h += '<div class="lbl"><span>Onde?</span></div><div class="locais">' + LOCAIS.map((l) => '<button data-a="local" data-k="' + k + '" data-l="' + esc(l) + '" aria-pressed="' + sel.includes(l) + '">' + esc(l) + "</button>").join("") + "</div>";
+    }
+    h += '<div class="lbl"><span>Gravidade</span><button class="link" data-a="ajuda-class">Como escolher?</button></div><div class="prio">';
+    [1, 2, 3].forEach((n) => { h += '<button data-a="prio" data-k="' + k + '" data-p="' + n + '" aria-pressed="' + (p === n) + '">' + PRIO_TXT[n] + "</button>"; });
+    h += "</div></div>";
+  }
+  if (a.s === "irr" || a.obs || (a.fotos && a.fotos.length)) {
+    h += '<textarea class="obs" id="obs-' + k.replace(/[^a-z0-9]/gi, "_") + '" data-obs="' + k + '" placeholder="O que você viu? Ex.: azulejo oco atrás da pia, 3 peças">' + esc(a.obs || "") + "</textarea>";
+  }
+  if (a.s !== "na") {
+    h += '<div class="fotos">';
+    (a.fotos || []).forEach((f) => { h += '<button class="thumb" data-a="ver-foto" data-k="' + k + '" data-f="' + f + '" aria-label="Ver foto"><img data-foto="' + f + '" alt=""></button>'; });
+    h += '<button class="add-foto" data-a="foto" data-k="' + k + '">' + I.cam + "Foto</button></div>";
+  }
+  h += '<div class="item-foot">';
+  if (a.s === "na") h += '<span class="muted" style="font-size:14px">Marcado como não se aplica.</span><button class="link" data-a="st" data-k="' + k + '" data-s="na">Desfazer</button>';
+  else if (!a.s) h += '<button class="link" data-a="st" data-k="' + k + '" data-s="na" style="color:var(--muted)">Não se aplica</button>';
+  if (a.s && a.s !== "irr" && a.s !== "na" && !a.obs) h += '<button class="link" data-a="obs" data-k="' + k + '">Adicionar observação</button>';
+  h += "</div></article>";
+  return h;
+}
+
+/* relatório */
+function irregularidades(v) {
+  const out = [];
+  ETAPAS.forEach((e) => itensDe(v, e).forEach((it) => { const a = v.resp[it.key]; if (a && a.s === "irr") out.push({ it, a, e }); }));
+  return out.sort((x, y) => (x.a.p || 2) - (y.a.p || 2));
+}
+
+function vRelatorio() {
+  const v = cur();
+  const c = contarTudo(v);
+  const irr = irregularidades(v);
+  let h = '<header class="top"><div class="wrap top-row"><button class="icon-btn" data-a="voltar-rel" aria-label="Voltar">' + I.back + "</button><h1>Relatório</h1></div></header>";
+  h += '<main class="wrap stack">';
+  h += '<div class="hero"><span class="eyebrow">Vistoria de recebimento · ' + fmtData(v.data) + "</span><h2>" + esc(v.nome) + '</h2><div class="v-meta">' + [v.empreend, v.construtora, v.endereco].filter(Boolean).map((x) => "<span>" + esc(x) + "</span>").join("") + "</div>" + (v.responsavel ? '<div class="v-meta"><span>Vistoriado por ' + esc(v.responsavel) + "</span></div>" : "") + "</div>";
+  h += '<div class="rep-sum"><div><b>' + c.feito + "/" + c.total + '</b><span>itens conferidos</span></div><div><b style="color:var(--p1)">' + c.p1 + '</b><span>graves</span></div><div><b style="color:var(--p2)">' + c.p2 + '</b><span>moderados</span></div><div><b style="color:var(--p3)">' + c.p3 + "</b><span>leves</span></div></div>";
+  h += '<div class="btn-row no-print"><button class="btn primary" data-a="copiar-rel">Copiar texto do relatório</button>' + (!framed ? '<button class="btn" data-a="imprimir">Imprimir ou salvar PDF</button>' : "") + "</div>";
+  h += '<section class="card"><h3 style="font-size:22px;margin-bottom:4px">Problemas encontrados</h3>';
+  if (!irr.length) h += '<p class="muted">Nenhum problema registrado até agora.</p>';
+  irr.forEach((x) => {
+    const p = x.a.p || 2;
+    h += '<div class="rep-item"><div class="chips"><span class="chip p' + p + '">' + PRIO_TXT[p] + '</span><span class="chip mono">' + x.it.code + "</span></div><b>" + esc(x.it.txt) + '</b><span class="where">' + esc(x.e.nome) + (x.a.locais && x.a.locais.length ? " · " + esc(x.a.locais.join(", ")) : "") + "</span>" + (x.a.obs ? "<span>" + esc(x.a.obs) + "</span>" : "");
+    if (x.a.fotos && x.a.fotos.length) h += '<div class="fotos">' + x.a.fotos.map((f) => '<button class="thumb" data-a="ver-foto" data-k="' + esc(x.it.key) + '" data-f="' + f + '" aria-label="Ver foto"><img data-foto="' + f + '" alt=""></button>').join("") + "</div>";
+    h += "</div>";
+  });
+  h += "</section>";
+  const meds = (v.medidas || []).filter((r) => r.amb || r.planta || r.real);
+  if (meds.length) {
+    h += '<section class="card stack"><h3 style="font-size:22px">Metragem</h3><div class="medidas"><div class="med-row med-head" style="grid-template-columns:1.4fr 1fr 1fr 1.2fr"><span>Ambiente</span><span>Planta</span><span>Medido</span><span>Diferença</span></div>';
+    meds.forEach((r) => { h += '<div class="med-row" style="grid-template-columns:1.4fr 1fr 1fr 1.2fr"><span>' + esc(r.amb) + '</span><span class="mono">' + esc(r.planta) + '</span><span class="mono">' + esc(r.real) + "</span>" + (difHtml(r) || "<span></span>") + "</div>"; });
+    h += "</div></section>";
+  }
+  const notas = ETAPAS.filter((e) => v.notas[e.id]).map((e) => "<p style=\"margin:0\"><b>" + esc(e.nome) + ":</b> " + esc(v.notas[e.id]) + "</p>").join("");
+  if (notas) h += '<section class="card stack"><h3 style="font-size:22px">Anotações</h3>' + notas + "</section>";
+  h += "</main>";
+  if (S.sheet) h += S.sheet;
+  return h;
+}
+
+function textoRelatorio(v) {
+  const c = contarTudo(v);
+  const L = [];
+  L.push("VISTORIA DE RECEBIMENTO DO IMÓVEL");
+  L.push("Imóvel: " + v.nome);
+  if (v.empreend) L.push("Empreendimento: " + v.empreend);
+  if (v.construtora) L.push("Construtora: " + v.construtora);
+  if (v.endereco) L.push("Endereço: " + v.endereco);
+  L.push("Data: " + fmtData(v.data));
+  if (v.responsavel) L.push("Vistoriado por: " + v.responsavel);
+  L.push("");
+  L.push("Itens conferidos: " + c.feito + " de " + c.total + ". Problemas: " + c.irr + " (" + c.p1 + " graves, " + c.p2 + " moderados, " + c.p3 + " leves).");
+  L.push("");
+  L.push("PROBLEMAS ENCONTRADOS");
+  const irr = irregularidades(v);
+  if (!irr.length) L.push("Nenhum.");
+  irr.forEach((x, i) => {
+    const p = x.a.p || 2;
+    L.push((i + 1) + ". [" + PRIO_TXT[p].toUpperCase() + "] " + x.it.txt + (x.a.locais && x.a.locais.length ? " | Local: " + x.a.locais.join(", ") : "") + (x.a.fotos && x.a.fotos.length ? " | " + x.a.fotos.length + " foto(s)" : ""));
+    if (x.a.obs) L.push("   " + x.a.obs);
+  });
+  const meds = (v.medidas || []).filter((r) => r.amb || r.planta || r.real);
+  if (meds.length) {
+    L.push(""); L.push("METRAGEM (planta / medido, em m²)");
+    meds.forEach((r) => { const p = num(r.planta), m = num(r.real); L.push(r.amb + ": " + (r.planta || "-") + " / " + (r.real || "-") + (p && m ? " (" + ((m - p) / p * 100).toFixed(1).replace(".", ",") + "%)" : "")); });
+  }
+  const notas = ETAPAS.filter((e) => v.notas[e.id]);
+  if (notas.length) { L.push(""); L.push("ANOTAÇÕES"); notas.forEach((e) => L.push(e.nome + ": " + v.notas[e.id])); }
+  return L.join("\n");
+}
+
+function vBackup() {
+  let h = '<header class="top"><div class="wrap top-row"><button class="icon-btn" data-a="home" aria-label="Voltar">' + I.back + "</button><h1>Backup</h1></div></header>";
+  h += '<main class="wrap stack">';
+  h += '<p class="muted" style="margin:0;max-width:62ch">Os dados ficam guardados no navegador deste aparelho. Se você limpar os dados do navegador ou trocar de celular, eles somem. Faça um backup ao terminar cada vistoria.</p>';
+  h += '<section class="card stack"><h3 style="font-size:20px">Salvar backup</h3>';
+  h += '<button class="btn primary" data-a="exportar">' + (framed ? "Copiar backup" : "Baixar arquivo de backup") + "</button>";
+  if (framed) h += '<p class="muted" style="margin:0;font-size:14px">O backup é copiado como texto. Cole num e-mail para você mesmo ou num arquivo de notas. Inclui as fotos, então pode ser um texto grande.</p>';
+  h += '</section><section class="card stack"><h3 style="font-size:20px">Restaurar backup</h3>';
+  h += '<button class="btn" data-a="importar-arq">Escolher arquivo de backup</button>';
+  h += '<div class="field"><label for="imp-txt">Ou cole o texto do backup</label><textarea id="imp-txt" rows="4" placeholder="Cole aqui"></textarea></div>';
+  h += '<button class="btn" data-a="importar-txt">Restaurar do texto colado</button>';
+  h += '<p class="muted" style="margin:0;font-size:14px">Vistorias do backup com o mesmo código substituem as atuais. As outras continuam.</p></section>';
+  h += "</main>";
+  return h;
+}
+
+function sheetAjuda(titulo, sub, aj) {
+  let h = '<div class="sheet-bg" data-a="fechar-bg"><div class="sheet" role="dialog" aria-modal="true" aria-label="' + esc(titulo) + '">';
+  h += '<div class="sheet-head"><div style="flex:1;min-width:0"><span class="eyebrow">' + esc(sub) + "</span><h2>" + esc(titulo) + '</h2></div><button class="icon-btn" data-a="fechar" aria-label="Fechar">' + I.close + "</button></div>";
+  h += '<div class="h-block"><h3><span class="dot" style="background:var(--accent)"></span>Como avaliar</h3><ul>' + aj.como.map((x) => "<li>" + esc(x) + "</li>").join("") + "</ul></div>";
+  h += '<div class="h-block"><h3><span class="dot" style="background:var(--p1)"></span>Atenção</h3><ul>' + aj.atencao.map((x) => "<li>" + esc(x) + "</li>").join("") + "</ul></div>";
+  h += '<div class="h-block"><h3><span class="dot" style="background:var(--ok)"></span>O que levar</h3><ul class="tools">' + aj.ferramentas.map((x) => "<li>" + esc(x) + "</li>").join("") + "</ul></div>";
+  h += "</div></div>";
+  return h;
+}
+function sheetClass() {
+  const A = AJUDA_CLASSIFICACAO;
+  let h = '<div class="sheet-bg" data-a="fechar-bg"><div class="sheet" role="dialog" aria-modal="true" aria-label="' + esc(A.titulo) + '">';
+  h += '<div class="sheet-head"><div style="flex:1;min-width:0"><span class="eyebrow">Ajuda</span><h2>' + esc(A.titulo) + '</h2></div><button class="icon-btn" data-a="fechar" aria-label="Fechar">' + I.close + "</button></div>";
+  A.blocos.forEach((b) => { h += '<div class="h-block"><h3><span class="dot" style="background:var(--' + b.c + ')"></span>' + esc(b.t) + "</h3><p>" + esc(b.txt) + "</p></div>"; });
+  h += '<p class="ref">' + esc(A.ref) + "</p></div></div>";
+  return h;
+}
+function sheetFoto(k, f) {
+  const data = fotoCache.get(f) || "";
+  let h = '<div class="sheet-bg" data-a="fechar-bg"><div class="sheet" role="dialog" aria-modal="true" aria-label="Foto">';
+  h += '<div class="sheet-head"><h2>Foto</h2><button class="icon-btn" data-a="fechar" aria-label="Fechar">' + I.close + "</button></div>";
+  h += '<img class="photo-view" src="' + data + '" alt="Foto do item">';
+  if (S.confirm === "del-f") h += '<div class="confirm">Apagar esta foto? <button class="btn small danger" data-a="del-foto-ok" data-k="' + esc(k) + '" data-f="' + f + '">Apagar</button><button class="btn small" data-a="ver-foto" data-k="' + esc(k) + '" data-f="' + f + '">Cancelar</button></div>';
+  else h += '<button class="btn danger" data-a="del-foto" data-k="' + esc(k) + '" data-f="' + f + '">Apagar foto</button>';
+  h += "</div></div>";
+  return h;
+}
+
+async function hydrateFotos() {
+  const imgs = app.querySelectorAll("img[data-foto]");
+  for (const img of imgs) { const d = await getFoto(img.dataset.foto); if (d) img.src = d; }
+}
+
+/* ---------------------------------------------------------------
+   Ações
+---------------------------------------------------------------- */
+function touch(v) { v.upd = Date.now(); save(); }
+function resp(v, k) { return v.resp[k] || (v.resp[k] = {}); }
+let toastT = null;
+function toast(msg) {
+  let t = document.querySelector(".toast");
+  if (!t) { t = document.createElement("div"); t.className = "toast"; t.setAttribute("role", "status"); document.body.appendChild(t); }
+  t.textContent = msg; t.hidden = false;
+  clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 2600);
+}
+function keepScroll(fn) { const y = window.scrollY; fn(); window.scrollTo(0, y); }
+async function copiar(txt, okMsg) {
+  try { await navigator.clipboard.writeText(txt); toast(okMsg); }
+  catch (e) {
+    const ta = document.createElement("textarea"); ta.value = txt; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand("copy"); } catch (e2) {}
+    ta.remove(); toast(ok ? okMsg : "Não foi possível copiar neste aparelho.");
+  }
+}
+
+function novaVistoria(d) {
+  return { id: uid(), nome: d.nome, empreend: d.empreend, construtora: d.construtora, endereco: d.endereco, data: d.data, responsavel: d.responsavel,
+    resp: {}, extras: {}, notas: {}, medidas: ["Sala", "Cozinha", "Quarto 1", "Banheiro social"].map((amb) => ({ id: uid(), amb, planta: "", real: "" })), upd: Date.now() };
+}
+
+let fotoAlvo = null;
+const fotoInput = document.getElementById("foto-input");
+fotoInput.addEventListener("change", async () => {
+  const file = fotoInput.files && fotoInput.files[0];
+  fotoInput.value = "";
+  if (!file || !fotoAlvo) return;
+  try {
+    const data = await comprimir(file);
+    const id = "f" + uid();
+    await putFoto(id, data);
+    const v = cur(); const a = resp(v, fotoAlvo);
+    (a.fotos || (a.fotos = [])).push(id);
+    touch(v); keepScroll(render); toast("Foto salva");
+  } catch (e) { toast("Não consegui ler essa imagem. Tente outra."); }
+});
+function comprimir(file) {
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const max = 1400; let w = img.naturalWidth, h = img.naturalHeight;
+      if (Math.max(w, h) > max) { const r = max / Math.max(w, h); w = Math.round(w * r); h = Math.round(h * r); }
+      const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+      cv.getContext("2d").drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      res(cv.toDataURL("image/jpeg", 0.72));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error("img")); };
+    img.src = url;
+  });
+}
+
+const importInput = document.getElementById("import-input");
+importInput.addEventListener("change", () => {
+  const file = importInput.files && importInput.files[0]; importInput.value = "";
+  if (!file) return;
+  const r = new FileReader(); r.onload = () => importar(String(r.result)); r.readAsText(file);
+});
+async function importar(txt) {
+  let d; try { d = JSON.parse(txt); } catch (e) { toast("Esse texto não é um backup válido."); return; }
+  if (!d || !Array.isArray(d.vistorias) || d.app !== "vistoria-recebimento") { toast("Esse texto não é um backup deste app."); return; }
+  for (const [id, data] of Object.entries(d.fotos || {})) await putFoto(id, data);
+  d.vistorias.forEach((nv) => { const i = S.vistorias.findIndex((v) => v.id === nv.id); if (i >= 0) S.vistorias[i] = nv; else S.vistorias.push(nv); });
+  save(); S.view = "home"; render(); toast(d.vistorias.length + " vistoria(s) restaurada(s)");
+}
+async function exportar() {
+  const fotos = {};
+  for (const v of S.vistorias) for (const a of Object.values(v.resp)) for (const f of (a.fotos || [])) { const d = await getFoto(f); if (d) fotos[f] = d; }
+  const txt = JSON.stringify({ app: "vistoria-recebimento", versao: 2, exportado: new Date().toISOString(), vistorias: S.vistorias, fotos });
+  if (!framed) {
+    try {
+      const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([txt], { type: "application/json" })); a.download = "vistorias-backup-" + hoje() + ".json";
+      document.body.appendChild(a); a.click(); a.remove(); toast("Backup baixado"); return;
+    } catch (e) {}
+  }
+  copiar(txt, "Backup copiado (" + Math.round(txt.length / 1024) + " KB)");
+}
+
+app.addEventListener("submit", (ev) => {
+  if (ev.target.id !== "f-vist") return;
+  ev.preventDefault();
+  const fd = Object.fromEntries(new FormData(ev.target).entries());
+  if (S.view === "editar") { Object.assign(cur(), fd); touch(cur()); S.view = "vistoria"; }
+  else { const v = novaVistoria(fd); S.vistorias.push(v); save(); S.id = v.id; S.etapa = 0; S.view = "vistoria"; }
+  S.confirm = null; render(); window.scrollTo(0, 0);
+});
+
+app.addEventListener("input", (ev) => {
+  const t = ev.target; const v = cur(); if (!v) return;
+  if (t.dataset.obs) { resp(v, t.dataset.obs).obs = t.value; touch(v); }
+  else if (t.dataset.nota) { v.notas[t.dataset.nota] = t.value; touch(v); }
+  else if (t.dataset.med) {
+    const r = (v.medidas || []).find((x) => x.id === t.dataset.med); if (!r) return;
+    r[t.dataset.campo] = t.value; touch(v);
+    const d = app.querySelector('[data-dif="' + r.id + '"]'); if (d) d.innerHTML = difHtml(r);
+  }
+});
+app.addEventListener("keydown", (ev) => {
+  if (ev.key === "Enter" && ev.target.dataset && ev.target.dataset.ai) { ev.preventDefault(); addItem(ev.target.dataset.ai); }
+});
+document.addEventListener("keydown", (ev) => { if (ev.key === "Escape" && S.sheet) { S.sheet = null; S.confirm = null; keepScroll(render); } });
+
+function addItem(etapaId) {
+  const v = cur(); const inp = document.querySelector('[data-ai="' + etapaId + '"]'); const txt = inp && inp.value.trim();
+  if (!txt) { inp && inp.focus(); return; }
+  (v.extras[etapaId] || (v.extras[etapaId] = [])).push({ id: uid(), txt });
+  touch(v); keepScroll(render);
+}
+
+app.addEventListener("click", (ev) => {
+  const b = ev.target.closest("[data-a]"); if (!b) return;
+  const a = b.dataset.a;
+  if (a === "fechar-bg" && ev.target !== b) return;
+  const v = cur();
+  const k = b.dataset.k;
+  switch (a) {
+    case "nova": S.view = "nova"; S.confirm = null; render(); window.scrollTo(0, 0); break;
+    case "abrir": S.id = b.dataset.id; S.etapa = 0; S.view = "vistoria"; S.sheet = null; render(); window.scrollTo(0, 0); break;
+    case "home": S.view = "home"; S.sheet = null; S.confirm = null; render(); window.scrollTo(0, 0); break;
+    case "backup": S.view = "backup"; render(); window.scrollTo(0, 0); break;
+    case "editar": S.view = "editar"; S.confirm = null; render(); window.scrollTo(0, 0); break;
+    case "voltar-form": S.view = S.view === "editar" && cur() ? "vistoria" : "home"; S.confirm = null; render(); break;
+    case "voltar-rel": S.view = "vistoria"; S.sheet = null; render(); window.scrollTo(0, 0); break;
+    case "relatorio": S.view = "relatorio"; S.sheet = null; render(); window.scrollTo(0, 0); break;
+    case "etapa": S.etapa = +b.dataset.i; S.sheet = null; S.confirm = null; render(); window.scrollTo(0, 0); scrollStep(); break;
+    case "prev": S.etapa = Math.max(0, S.etapa - 1); render(); window.scrollTo(0, 0); scrollStep(); break;
+    case "next": S.etapa = Math.min(ETAPAS.length - 1, S.etapa + 1); render(); window.scrollTo(0, 0); scrollStep(); break;
+    case "st": { const r = resp(v, k); r.s = r.s === b.dataset.s ? undefined : b.dataset.s; if (r.s === "irr" && !r.p) r.p = 2; touch(v); keepScroll(render); break; }
+    case "prio": resp(v, k).p = +b.dataset.p; touch(v); keepScroll(render); break;
+    case "local": { const r = resp(v, k); const l = b.dataset.l; r.locais = r.locais || []; r.locais = r.locais.includes(l) ? r.locais.filter((x) => x !== l) : r.locais.concat(l); touch(v); keepScroll(render); break; }
+    case "obs": { resp(v, k).obs = " "; keepScroll(render); resp(v, k).obs = ""; const ta = document.querySelector('[data-obs="' + CSS.escape(k) + '"]'); if (ta) { ta.value = ""; ta.focus(); } break; }
+    case "foto": fotoAlvo = k; fotoInput.click(); break;
+    case "ver-foto": S.confirm = null; getFoto(b.dataset.f).then(() => { S.sheet = sheetFoto(k, b.dataset.f); keepScroll(render); }); break;
+    case "del-foto": S.confirm = "del-f"; S.sheet = sheetFoto(k, b.dataset.f); keepScroll(render); break;
+    case "del-foto-ok": { const r = resp(v, k); r.fotos = (r.fotos || []).filter((f) => f !== b.dataset.f); delFoto(b.dataset.f); S.sheet = null; S.confirm = null; touch(v); keepScroll(render); toast("Foto apagada"); break; }
+    case "ajuda": { const e = ETAPAS.find((x) => x.id === b.dataset.e); S.sheet = sheetAjuda(e.nome, e.fechamento ? "Final · Ajuda" : "Passo " + (ETAPAS.indexOf(e) + 1) + " · Ajuda", e.ajuda); keepScroll(render); break; }
+    case "ajuda-class": S.sheet = sheetClass(); keepScroll(render); break;
+    case "fechar": case "fechar-bg": S.sheet = null; S.confirm = null; keepScroll(render); break;
+    case "add-med": (v.medidas || (v.medidas = [])).push({ id: uid(), amb: "", planta: "", real: "" }); touch(v); keepScroll(render); { const ins = app.querySelectorAll('[data-campo="amb"]'); if (ins.length) ins[ins.length - 1].focus(); } break;
+    case "del-med": v.medidas = (v.medidas || []).filter((r) => r.id !== b.dataset.id); touch(v); keepScroll(render); break;
+    case "add-item": addItem(b.dataset.alvo); break;
+    case "del-extra": {
+      const parts = k.split(":");
+      v.extras[parts[0]] = (v.extras[parts[0]] || []).filter((x) => x.id !== parts[2]);
+      if (v.resp[k]) { (v.resp[k].fotos || []).forEach(delFoto); delete v.resp[k]; }
+      touch(v); keepScroll(render); break;
+    }
+    case "cancel": S.confirm = null; keepScroll(render); break;
+    case "del-vist": S.confirm = "del-vist"; render(); break;
+    case "del-vist-ok": {
+      Object.values(v.resp).forEach((r) => (r.fotos || []).forEach(delFoto));
+      S.vistorias = S.vistorias.filter((x) => x.id !== v.id); S.id = null; S.confirm = null; S.view = "home"; save(); render(); toast("Vistoria apagada"); break;
+    }
+    case "copiar-rel": copiar(textoRelatorio(v), "Relatório copiado"); break;
+    case "imprimir": window.print(); break;
+    case "exportar": exportar(); break;
+    case "importar-arq": importInput.click(); break;
+    case "importar-txt": { const t = document.getElementById("imp-txt").value.trim(); if (t) importar(t); else toast("Cole o texto do backup primeiro."); break; }
+  }
+});
+function scrollStep() { const s = document.querySelector(".step.cur"); if (s && s.scrollIntoView) s.scrollIntoView({ inline: "center", block: "nearest" }); }
+
+/* ---------------------------------------------------------------
+   Exemplo inicial (aparece só na primeira vez, pode ser apagado)
+---------------------------------------------------------------- */
+function exemplo() {
+  const v = novaVistoria({ nome: "Apto 804, Torre A (exemplo)", empreend: "Residencial Jacarandá", construtora: "", endereco: "Rua das Palmeiras, 120", data: hoje(), responsavel: "" });
+  v.exemplo = true;
+  ["doc:0", "doc:1", "doc:2", "par:0", "par:2", "par:4"].forEach((k) => (v.resp[k] = { s: "ok" }));
+  v.resp["doc:3"] = { s: "irr", p: 3, obs: "Quarto 1 com 0,4 m² a menos que a planta." };
+  v.resp["par:1"] = { s: "irr", p: 1, locais: ["Banheiro social"], obs: "Mancha de umidade no teto, acima do box, com cerca de 30 cm." };
+  v.resp["par:3"] = { s: "irr", p: 2, locais: ["Cozinha"], obs: "3 azulejos ocos atrás da pia. Marcados com fita crepe." };
+  v.medidas[0].planta = "18,20"; v.medidas[0].real = "18,05";
+  v.medidas[2].planta = "9,60"; v.medidas[2].real = "9,20";
+  v.notas.doc = "Este é um exemplo para mostrar como o app funciona. Pode apagar quando quiser (botão de três pontos no topo da vistoria).";
+  v.upd = Date.now() - 1000;
+  return v;
+}
+
+(async function boot() {
+  const data = await loadData();
+  if (data && Array.isArray(data)) S.vistorias = data;
+  else { S.vistorias = [exemplo()]; save(); }
+  try { const ui = JSON.parse(localStorage.getItem("ui-receb") || "null"); if (ui && ui.id && S.vistorias.some((v) => v.id === ui.id)) { S.id = ui.id; S.etapa = Math.min(ui.etapa || 0, ETAPAS.length - 1); S.view = ui.view; } } catch (e) {}
+  render();
+  scrollStep();
+})();
+})();
+</script>
+<script>
+/* Instalação no celular: guarda o app para abrir sem internet e mostra o convite para pôr na tela inicial */
+(function () {
+  if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+  if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+  const instalado = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  let dispensado = false;
+  try { dispensado = localStorage.getItem("instalar-dispensado") === "1"; } catch (e) {}
+  if (instalado || dispensado) return;
+  function mostrar(texto, acao) {
+    const el = document.createElement("div");
+    el.className = "instalar"; el.setAttribute("role", "dialog");
+    el.innerHTML = '<img src="icons/icon-192.png" alt=""><p>' + texto + '</p>' + (acao ? '<button class="sim">Instalar</button>' : '') + '<button class="nao" aria-label="Fechar">Agora não</button>';
+    document.body.appendChild(el);
+    el.querySelector(".nao").onclick = () => { el.remove(); try { localStorage.setItem("instalar-dispensado", "1"); } catch (e) {} };
+    if (acao) el.querySelector(".sim").onclick = () => { el.remove(); acao(); };
+    setTimeout(() => el.remove(), 20000);
+  }
+  addEventListener("beforeinstallprompt", (ev) => {
+    ev.preventDefault();
+    mostrar("Coloque o app na tela inicial para abrir como um aplicativo, mesmo sem internet.", () => ev.prompt());
+  });
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (ios) setTimeout(() => mostrar("Para pôr na tela inicial, toque em Compartilhar e depois em <b>Adicionar à Tela de Início</b>."), 1500);
+})();
+</script>
+
+</body></html>
